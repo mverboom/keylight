@@ -39,7 +39,8 @@ Now, try to start the following command to look for any changes in the content:
 
 You should end up with somthing like this:
 
-`Every 2.0s: xxd /sys/kernel/debug/ec/ec0/io                         Mon Dec  7 19:58:34 2015
+```
+Every 2.0s: xxd /sys/kernel/debug/ec/ec0/io                         Mon Dec  7 19:58:34 2015
 
 0000000: a605 a8c2 0086 0500 0009 4700 0005 8000  ..........G.....
 0000010: 0000 ffff f03c 0001 7bff 0000 ffff 9d00  .....<..{.......
@@ -56,7 +57,8 @@ You should end up with somthing like this:
 00000c0: 0000 0000 0000 0000 005a 0002 0000 1000  .........Z......
 00000d0: 16c0 c001 0000 0000 0000 0000 0000 0000  ................
 00000e0: 0000 0000 0000 0000 1090 df17 e42e 4403  ..............D.
-00000f0: 474a 4854 3235 5757 1b67 7282 0000 0000  GJHT25WW.gr.....`
+00000f0: 474a 4854 3235 5757 1b67 7282 0000 0000  GJHT25WW.gr.....
+```
 
 Now while watching this, turn the backlight on and off and see which byte is changing.
 Once you found it, find the position of the byte that is changing. Next, note the byte
@@ -75,7 +77,8 @@ run
 
 for a list of input devices. The output can look something like this:
 
-`keylight.py -l
+```
+keylight.py -l
 Available input devices:
 ('/dev/input/event13', 'TPPS/2 IBM TrackPoint', 'synaptics-pt/serio0/input0')
 ('/dev/input/event12', 'SynPS/2 Synaptics TouchPad', 'isa0060/serio1/input0')
@@ -90,7 +93,8 @@ Available input devices:
 ('/dev/input/event3', 'AT Translated Set 2 keyboard', 'isa0060/serio0/input0')
 ('/dev/input/event2', 'Power Button', 'LNXPWRBN/button/input0')
 ('/dev/input/event1', 'Sleep Button', 'PNP0C0E/button/input0')
-('/dev/input/event0', 'Lid Switch', 'PNP0C0D/button/input0')`
+('/dev/input/event0', 'Lid Switch', 'PNP0C0D/button/input0')
+```
 
 My keyboard is /dev/input/event3.
 
@@ -109,7 +113,8 @@ To find another key combination, you can use the script to dump keys:
 
 When running this and pressing ctrl+shift you will get:
 
-`Showing pressed key codes. Press ctrl-c to abort
+```
+Showing pressed key codes. Press ctrl-c to abort
 []
 [29]
 [29, 42]
@@ -122,7 +127,8 @@ When running this and pressing ctrl+shift you will get:
     for event in dev.read_loop():
   File "/usr/local/lib/python2.7/dist-packages/evdev/device.py", line 280, in read_loop
     r, w, x = select([self.fd], [], [])
-KeyboardInterrupt`
+KeyboardInterrupt
+```
 
 The tricky bit here is finding which codes correspond to the ctrl+shift. In this example
 it is 29,42.
