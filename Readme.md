@@ -15,58 +15,14 @@ knows.
 
 Oh, this is one of my first python scripts, so don't expect anything fancy inside ;)
 
+The script originally worked by poking around some bytes, but in more recent
+kernels there is support for the keyboard backlight through /sys, which is a lot
+nicer.
+
 ## Requirements
 
 You will need python evdev to run this script. Also, you need to be root and do some
 searching to start the script with the correct values for your laptop.
-
-## Finding the bytes
-
-The script is quite a hack, it basically changes the value in the ACPI embedded controller
-that is related to the backlight. To start you need to figure out for your laptop which
-byte it is and what the values are. To do this you need to insert the ec_sys kernel
-module
-
-`modpobe ec_sys`
-
-Then the following file should be available with the contents of the embedded controller:
-
-`/sys/kernel/debug/ec/ec0/io`
-
-Now, try to start the following command to look for any changes in the content:
-
-`watch xxd /sys/kernel/debug/ec/ec0/io`
-
-You should end up with somthing like this:
-
-```
-Every 2.0s: xxd /sys/kernel/debug/ec/ec0/io                         Mon Dec  7 19:58:34 2015
-
-0000000: a605 a8c2 0086 0500 0009 4700 0005 8000  ..........G.....
-0000010: 0000 ffff f03c 0001 7bff 0000 ffff 9d00  .....<..{.......
-0000020: 0000 0000 0000 00d8 0000 0000 6900 6e80  ............i.n.
-0000030: 0000 0000 7004 0000 84c3 3018 0050 0000  ....p.....0..P..
-0000040: 0000 0000 0000 0446 4218 0000 0000 0000  .......FB.......
-0000050: 0080 020c 0001 0203 0405 0607 ec62 2975  .............b)u
-0000060: 11e1 ba4d 0700 0000 0000 0000 0000 0000  ...M............
-0000070: 0000 0000 0800 0000 2800 0000 0000 0000  ........(.......
-0000080: 0010 0506 0000 0300 0000 0000 0000 2b00  ..............+.
-0000090: 0000 0000 0000 0000 0000 0000 0000 0000  ................
-00000a0: 3404 a208 6f00 3100 0ffe 492c ffff c000  4...o.1...I,....
-00000b0: 0000 0000 0000 0000 0000 2d05 0096 0100  ..........-.....
-00000c0: 0000 0000 0000 0000 005a 0002 0000 1000  .........Z......
-00000d0: 16c0 c001 0000 0000 0000 0000 0000 0000  ................
-00000e0: 0000 0000 0000 0000 1090 df17 e42e 4403  ..............D.
-00000f0: 474a 4854 3235 5757 1b67 7282 0000 0000  GJHT25WW.gr.....
-```
-
-Now while watching this, turn the backlight on and off and see which byte is changing.
-Once you found it, find the position of the byte that is changing. Next, note the byte
-values that are related to off and on.
-
-These values can be used to start the script with:
-
-`keylight.py --offset=13 --ledon=0x45 --ledoff=0x05`
 
 ## Finding the keyboard
 
@@ -141,4 +97,4 @@ To start the script with this key combination, use:
 
 For my laptop, with windowskey + F12 as hotkey, I start the command like this:
 
-`keylight.py --hotkeys=88,12 --offset=13 --ledon=0x45 --ledoff=0x05 -t 5 -d /dev/input/event3`
+`keylight.py --hotkeys=88,12 -t 5 -d /dev/input/event3`
