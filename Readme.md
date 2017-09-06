@@ -98,3 +98,15 @@ To start the script with this key combination, use:
 For my laptop, with windowskey + F12 as hotkey, I start the command like this:
 
 `keylight.py --hotkeys=88,12 -t 5 -d /dev/input/event3`
+
+## Installation for systemD
+* Check-out the software in /opt/keylight
+* Copy keylight.service to /etc/systemd/system
+* Edit /opt/keylight/keylight.conf
+* Reload systemd
+`systemctl daemon-reload`
+* Enable and start the service
+```
+systemctl enable keylight
+systemctl start keylight
+```
