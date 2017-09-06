@@ -1,0 +1,12 @@
+[Unit]
+Description=Lenovo Thinkpad dynamic keyboard lighting
+
+[Service]
+EnvironmentFile=/opt/keylight/keylight.conf
+ExecStart=/opt/keylight/keylight.py $KEYLIGHT_OPTIONS
+ExecStop=/bin/kill -2 $MAINPID
+KillMode=process
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
