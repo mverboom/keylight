@@ -43,7 +43,6 @@ if not os.path.exists("/sys/class/leds/tpacpi::kbd_backlight/brightness"):
     exit(1)
 
 dev = InputDevice(options.device)
-light = open("/sys/class/leds/tpacpi::kbd_backlight/brightness", "r+")
 
 if options.keys:
     print("Showing pressed key codes. Press ctrl-c to abort")
